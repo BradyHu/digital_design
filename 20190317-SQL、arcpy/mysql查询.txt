@@ -1,0 +1,168 @@
+# 2.1 
+# 查询student表中所有内容
+-- SELECT
+--  * 
+-- FROM
+--  students;
+
+# 2.2 
+# 查询2017秋季学期的课程（使用Where）
+-- SELECT
+--  * 
+-- FROM
+--  semester_roster 
+-- WHERE
+--  term = "Fall 2017";
+
+# 2.3
+# 将enrollment表中letter_grade为F所在行的numeric_grade改成55
+-- UPDATE enrollment 
+-- SET numeric_grade = 55 
+-- WHERE
+--  letter_grade = 'F';
+
+# 2.4
+# 查询Max教的课程名称
+-- SELECT
+--  * 
+-- FROM
+--  courses 
+-- WHERE
+--  instructor LIKE "%Max%";
+
+# 2.5 
+# 查询秋季学期MUSA620课程的平均分和最高分（使用AVG和MAX）
+-- SELECT
+--  avg( numeric_grade ) AS 平均分,
+--  max( numeric_grade ) AS 最高分 
+-- FROM
+--  enrollment 
+-- WHERE
+--  term = 'Fall 2017' 
+--  AND course_id = "MUSA 620";
+
+# 2.6
+#  查询每名学生的均分并按排序（使用GROUP BY和ORDER BY）
+-- SELECT
+--  student_id,
+--  avg( numeric_grade ) 
+-- FROM
+--  enrollment 
+-- GROUP BY
+--  student_id 
+-- ORDER BY
+--  avg( numeric_grade ) DESC;
+
+# 2.7
+#  查询学生名字和各自上过的课（使用JOIN，推广到INNER JOIN, LEFT JOIN）
+-- SELECT NAME
+--  ,
+--  course_id 
+-- FROM
+--  students
+--  INNER JOIN enrollment ON students.student_id = enrollment.student_id;
+# 插入一条学生信息
+-- INSERT INTO students ( student_id, NAME, major, email )
+-- VALUES
+--  ( "2014311689", "Brady, Hu", "UM", "brady@upenn.edu" );
+# 插入后的inner join 与left join 对比
+-- SELECT NAME
+--  ,
+--  course_id 
+-- FROM
+--  students
+--  INNER JOIN enrollment ON students.student_id = enrollment.student_id;
+-- SELECT NAME
+--  ,
+--  course_id 
+-- FROM
+--  students
+--  LEFT JOIN enrollment ON students.student_id = enrollment.student_id;
+
+#2.8 查询每名学生各选过几门课（使用COUNT）
+-- SELECT
+--  students.`name`,
+--  count( * ) 
+-- FROM
+--  students
+--  INNER JOIN enrollment ON students.student_id = enrollment.student_id 
+-- GROUP BY
+--  students.student_id;
+# 给表起个名字
+-- SELECT
+--  students.`name`,
+--  count( * ) 
+-- FROM
+--  students s
+--  INNER JOIN enrollment e ON s.student_id = e.student_id 
+-- GROUP BY
+--  s.student_id;
+
+# 3.1 
+# 修改enrollment表中的letter_grade，<60为F，>=60且<80为C，>=80且<90为B，>=90为A（使用CASE）
+-- UPDATE enrollment 
+-- SET letter_grade =
+-- CASE
+--  WHEN numeric_grade < 60 THEN    'F' 
+--  WHEN numeric_grade < 80 THEN    'C' 
+--  WHEN numeric_grade < 90 THEN    'B' ELSE 'A' 
+--  END;
+
+# 3.2
+# 在course表中新建列course_id_int，格式为INT，值为course_id中的数字部分（使用CAST）
+-- SELECT
+--  cast( SUBSTRING_INDEX( course_id, ' ',- 1 ) AS signed INT ) 
+-- FROM
+--  courses;
+
+# 3.3
+# 查询哪些学生至少有3门（MUSA）课的成绩在80分以上，返回学生姓名（使用HAVING）
+# 第一种方式：嵌套查询
+-- SELECT
+--  * 
+-- FROM
+--  ( SELECT student_id, count( * ) AS course_count FROM enrollment WHERE numeric_grade > 80 GROUP BY student_id ) a 
+-- WHERE
+--  a.course_count >= 3;
+# 第二种方式：使用Having 关键词
+-- SELECT
+--  student_id,
+--  count( * ) AS course_count 
+-- FROM
+--  enrollment 
+-- WHERE
+--  numeric_grade > 80 
+-- GROUP BY
+--  student_id 
+-- HAVING
+--  course_count >= 3;
+
+# 3.4
+# 查询哪些学生上过MUSA的课并且有任一门（MUSA）课的成绩在80分以上，返回学生姓名（使用LIKE，DISTINCT，或者EXIST）
+#第一种方式：表连接
+-- SELECT DISTINCT
+--  s.NAME 
+-- FROM
+--  students s
+--  INNER JOIN enrollment e ON s.student_id = e.student_id 
+-- WHERE
+--  e.numeric_grade > 80 
+--  AND e.course_id LIKE "%MUSA%";
+# 第二种方式：exists函数（子查询）
+-- SELECT NAME 
+-- FROM
+--  students 
+-- WHERE
+--  EXISTS ( SELECT * FROM enrollment WHERE numeric_grade > 80 AND student_id = students.student_id AND enrollment.course_id LIKE "%MUSA%" );
+
+# 3.5
+# 教学楼对学生的成绩有影响吗？教室所在的楼层呢？
+-- SELECT
+--  avg( numeric_grade ) AS 平均分,
+--  SUBSTRING_INDEX( room, ' ', 1 ) AS 教学楼 
+-- FROM
+--  enrollment e
+--  INNER JOIN semester_roster s ON e.course_id = s.course_id 
+--  AND e.term = s.term 
+-- GROUP BY
+--  SUBSTRING_INDEX( room, ' ', 1 );
