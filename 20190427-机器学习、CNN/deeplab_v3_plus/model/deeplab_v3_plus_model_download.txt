@@ -1,0 +1,19 @@
+refer:https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md
+
+下面是谷歌训练好的模型，以及其运行时间，准确率，文件大小等信息，需要的可以自行下载，然后在python文件中修改加载即可。
+
+
+
+Checkpoint name                         | Eval OS   | Eval scales                 | Left-right Flip | Multiply-Adds         | Runtime (sec)  | Cityscapes mIOU                | File Size
+--------------------------------------- | :-------: | :-------------------------: | :-------------: | :-------------------: | :------------: | :----------------------------: | :-------:
+mobilenetv2_coco_cityscapes_trainfine   | 16 <br> 8 | [1.0] <br> [0.75:0.25:1.25] | No <br> Yes     | 21.27B <br> 433.24B   | 0.8 <br> 51.12 | 70.71% (val) <br> 73.57% (val) | 23MB
+url:  http://download.tensorflow.org/models/deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
+
+xception65_cityscapes_trainfine         | 16 <br> 8 | [1.0] <br> [0.75:0.25:1.25] | No <br> Yes     | 418.64B <br> 8677.92B | 5.0 <br> 422.8 | 78.79% (val) <br> 80.42% (val) | 439MB
+url:  http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_06.tar.gz
+
+xception71_dpc_cityscapes_trainfine     | 16        | [1.0]                       | No              | 502.07B               | -              | 80.31% (val)                   | 445MB
+url:  http://download.tensorflow.org/models/deeplab_cityscapes_xception71_trainfine_2018_09_08.tar.gz
+
+xception71_dpc_cityscapes_trainval      | 8         | [0.75:0.25:2]               | Yes             | -                     | -              | 82.66% (**test**)              | 446MB
+url:  http://download.tensorflow.org/models/deeplab_cityscapes_xception71_trainvalfine_2018_09_08.tar.gz

@@ -1,0 +1,12 @@
+refer:https://github.com/OlafenwaMoses/ImageAI/tree/master/imageai/Detection
+
+下面是imageai训练好的模型，以及其运行时间，准确率，文件大小等信息，需要的可以自行下载，然后在python文件中修改加载即可。
+
+- RetinaNet (Size = 145 mb, high performance and accuracy, with longer detection time) 
+url:https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5
+
+- YOLOv3 (Size = 237 mb, moderate performance and accuracy, with a moderate detection time) 
+https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo.h5
+
+- TinyYOLOv3 (Size = 34 mb, optimized for speed and moderate performance, with fast detection time) 
+https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5

@@ -1,0 +1,8 @@
+首先下载压缩包进行解压（看到这个任务说明的时候这一步你已经应该做完了）
+
+其次，在压缩包下imageai 和deeplab_v3_plus 下分别有一个install.bat windows下双击即可进行包的安装
+
+MAC用户：
+打开terminal ，分别进入上述两个文件夹，执行
+pip install -r requirements.txt
+等待安装完成即可
